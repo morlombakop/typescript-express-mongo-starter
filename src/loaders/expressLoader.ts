@@ -24,7 +24,7 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
              * Here we specify what controllers should be registered in our express server.
              */
             controllers: env.app.dirs.controllers,
-            middlewares: env.app.dirs.middlewares,
+            // middlewares: env.app.dirs.middlewares,
             // interceptors: env.app.dirs.interceptors,
 
             /**
@@ -36,7 +36,7 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
 
         // Run application to listen on given port
         // if (!env.isTest) {
-            const server = expressApp.listen(env.app.port);
+            const server = expressApp.listen(env.app.port || 5000);
             settings.setData('express_server', server);
         // }
 
