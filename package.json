@@ -10,7 +10,10 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --no-cache",
-    "start": "node dist/app.js"
+    "start": "node dist/src/app.js",
+    "copy:static-assets": "ts-node copyStaticAssets.ts",
+    "build:ts": "tsc",
+    "build": "npm run build:ts && npm run copy:static-assets"
   },
   "main": "src/app.ts",
   "keywords": [
@@ -31,20 +34,29 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
+    "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "microframework-w3tec": "^0.6.3",
     "mongoose": "^5.6.0",
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
+    "routing-controllers": "^0.7.7",
     "ts-node": "^8.3.0",
-    "tslint": "^5.17.0"
+    "tslint": "^5.17.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
     "@types/cors": "^2.8.5",
     "@types/dotenv": "^6.1.1",
+    "@types/ejs": "^2.6.3",
     "@types/express": "^4.17.0",
     "@types/mongoose": "^5.5.6",
+    "@types/shelljs": "^0.8.5",
     "jest": "^24.8.0",
+    "rimraf": "^2.6.3",
+    "shelljs": "^0.8.3",
     "typescript": "^3.5.2"
   }
 }
