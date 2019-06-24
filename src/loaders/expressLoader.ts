@@ -23,7 +23,8 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
              * We can add options about how routing-controllers should configure itself.
              * Here we specify what controllers should be registered in our express server.
              */
-            // controllers: env.app.dirs.controllers,
+            controllers: env.app.dirs.controllers, // env.app.dirs.controllers,
+
             // middlewares: env.app.dirs.middlewares,
             // interceptors: env.app.dirs.interceptors,
 
