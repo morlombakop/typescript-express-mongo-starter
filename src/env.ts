@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import * as pkg from '../package.json';
 import {
-    getOsEnv, getOsEnvOptional, getOsPath, getOsPaths, normalizePort, toBool, toNumber
+    getOsEnv, getOsEnvOptional,  getOsPaths, normalizePort, toBool, // getOsPath, toNumber
 } from './lib/env';
 
 /**

@@ -1,19 +1,21 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import ejs from 'ejs';
+import 'reflect-metadata';
 
-const app = express();
-app.set('views', path.join(__dirname, 'public/views'));
-app.engine('html', ejs.renderFile);
-app.set('view engine', 'html');
+import { bootstrapMicroframework } from 'microframework-w3tec';
 
-app.use(cors());
-app.options('*', cors());
+import { Logger } from './lib/logger';
+import expressLoader from './loaders/expressLoader';
+import staticPageLoader from './loaders/staticPageLoader';
+import monitorLoader from './loaders/monitorLoader';
+import winstonLoader from './loaders/winstonLoader';
 
-app.get('/', (req, res) => {
-  // res.status(200).send({ h1: 'Hello world'});
-  res.render('index.html');
-});
+const log = new Logger(__filename);
 
-app.listen(5000);
+bootstrapMicroframework({
+  /**
+   * Loader is a place where you can configure all your modules during microframework
+   * bootstrap process. All loaders are executed one by one in a sequential order.
+   */
+  loaders: [winstonLoader, expressLoader, staticPageLoader, monitorLoader ],
+})
+  // .then(() => banner(log))
+  .catch(error => log.error('Application is crashed: ' + error));

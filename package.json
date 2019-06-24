@@ -9,11 +9,13 @@
   "author": "Morlo Mbakop <morlombakop@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "develop": "npm run build && npm run start",
     "test": "jest --no-cache",
     "start": "node dist/src/app.js",
     "copy:static-assets": "ts-node copyStaticAssets.ts",
     "build:ts": "tsc",
-    "build": "npm run build:ts && npm run copy:static-assets"
+    "build": "npm run clean:dist && npm run build:ts && npm run copy:static-assets",
+    "clean:dist": "rimraf dist"
   },
   "main": "src/app.ts",
   "keywords": [
@@ -36,11 +38,13 @@
     "dotenv": "^8.0.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "express-status-monitor": "^1.2.6",
     "helmet": "^3.18.0",
     "microframework-w3tec": "^0.6.3",
     "mongoose": "^5.6.0",
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
+    "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.7.7",
     "ts-node": "^8.3.0",
     "tslint": "^5.17.0",
