@@ -2,11 +2,11 @@ import 'reflect-metadata';
 import { bootstrapMicroframework } from 'microframework-w3tec';
 
 import { Logger } from './lib/logger';
-import expressLoader from './loaders/expressLoader';
-import staticPageLoader from './loaders/staticPageLoader';
-import monitorLoader from './loaders/monitorLoader';
-import winstonLoader from './loaders/winstonLoader';
-import iocLoader from './loaders/iocLoader';
+import { expressLoader } from './loaders/expressLoader';
+import { staticPageLoader } from './loaders/staticPageLoader';
+import { monitorLoader } from './loaders/monitorLoader';
+import { winstonLoader } from './loaders/winstonLoader';
+import { iocLoader } from './loaders/iocLoader';
 
 const log = new Logger(__filename);
 

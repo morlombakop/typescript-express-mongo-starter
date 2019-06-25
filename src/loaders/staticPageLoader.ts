@@ -5,7 +5,7 @@ import ejs from 'ejs';
 
 // import { env } from '../env';
 
-const staticPageLoader: MicroframeworkLoader = (
+export const staticPageLoader: MicroframeworkLoader = (
   settings: MicroframeworkSettings | undefined
 ) => {
   if (settings) {
@@ -24,5 +24,3 @@ const staticPageLoader: MicroframeworkLoader = (
     });
   }
 };
-
-export default staticPageLoader;

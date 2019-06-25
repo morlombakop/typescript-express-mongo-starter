@@ -6,7 +6,7 @@ import { createExpressServer } from 'routing-controllers';
 // import { currentUserChecker } from '../auth/currentUserChecker';
 import { env } from '../env';
 
-const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
+export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     if (settings) {
         // const connection = settings.getData('connection');
 
@@ -24,8 +24,7 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
              * Here we specify what controllers should be registered in our express server.
              */
             controllers: env.app.dirs.controllers, // env.app.dirs.controllers,
-
-            // middlewares: env.app.dirs.middlewares,
+            middlewares: env.app.dirs.middlewares,
             // interceptors: env.app.dirs.interceptors,
 
             /**
@@ -45,5 +44,3 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
         settings.setData('express_app', expressApp);
     }
 };
-
-export default expressLoader;
