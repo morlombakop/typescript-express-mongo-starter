@@ -39,6 +39,10 @@ export const env = {
             subscribers: getOsPaths('SUBSCRIBERS'),
             resolvers: getOsPaths('RESOLVERS'),
         },
+        jwt: {
+          secret: getOsEnv('JWT_SECRET'),
+          expiresIn: getOsEnv('JWT_EXPIRES_IN'),
+        },
     },
     log: {
         level: getOsEnv('LOG_LEVEL'),
