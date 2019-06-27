@@ -21,7 +21,7 @@ const Token = new Schema(
 
 const userSchema = new Schema(
   {
-    email: { type: String, unique: true },
+    username: { type: String, unique: true, minlength: 4, trim: true },
     password: { type: String },
     passwordResetToken: { type: String },
     passwordResetExpires: { type: Date },

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-import { Logger } from '../lib/logger';
-import { env } from '../env';
+import { Logger } from '../../lib/logger';
+import { env } from '../../env';
 
 const log = new Logger(__filename);
 
@@ -16,7 +16,7 @@ export const generateJwt = (data: IJwtData) =>
 export const decryptJwt = (token: string) => {
   let decoded = undefined;
   try {
-    decoded = jwt.verify(token, env.app.jwt.expiresIn);
+    decoded = jwt.verify(token, env.app.jwt.secret);
   } catch (ex) {
     log.info('Unable to decrypt this token: ', token, ex);
   }

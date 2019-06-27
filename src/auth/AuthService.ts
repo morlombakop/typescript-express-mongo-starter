@@ -8,7 +8,7 @@ import { Logger, LoggerInterface } from '../decorators/Logger';
 export class AuthService {
 
     constructor(
-        @Logger(__filename) private log: LoggerInterface,
+        @Logger(__filename) private log: LoggerInterface
     ) { }
 
     public parseBasicAuthFromRequest(req: express.Request): { username: string, password: string } {
