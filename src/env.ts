@@ -49,16 +49,10 @@ export const env = {
         json: toBool(getOsEnvOptional('LOG_JSON')),
         output: getOsEnv('LOG_OUTPUT'),
     },
-    // db: {
-    //     type: getOsEnv('TYPEORM_CONNECTION'),
-    //     host: getOsEnvOptional('TYPEORM_HOST'),
-    //     port: toNumber(getOsEnvOptional('TYPEORM_PORT')),
-    //     username: getOsEnvOptional('TYPEORM_USERNAME'),
-    //     password: getOsEnvOptional('TYPEORM_PASSWORD'),
-    //     database: getOsEnv('TYPEORM_DATABASE'),
-    //     synchronize: toBool(getOsEnvOptional('TYPEORM_SYNCHRONIZE')),
-    //     logging: getOsEnv('TYPEORM_LOGGING'),
-    // },
+    db: {
+        url: getOsEnv('DB_URL'),
+        name: getOsEnv('DB_NAME'),
+    },
     graphql: {
         enabled: toBool(getOsEnv('GRAPHQL_ENABLED')),
         route: getOsEnv('GRAPHQL_ROUTE'),

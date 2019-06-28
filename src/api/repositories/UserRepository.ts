@@ -9,7 +9,7 @@ import { Logger, LoggerInterface } from '../../decorators/Logger';
 export class UserRepository implements IUserRepository {
   constructor(@Logger(__filename) private log: LoggerInterface) {}
 
-  public findById(id: string): IUser|undefined {
+  public findById(id: string): IUser | undefined {
     User.findById(id, (error, user) => {
       if (error) {
         this.log.error('Unable to find user with id: ', id, error);
@@ -46,28 +46,18 @@ export class UserRepository implements IUserRepository {
     return undefined;
   }
 
-  public create(document: IUser): IUser {
-  //   const technique = new Technique(req.body);
-  // const newId = await getAutoIncrementId('techniqueId');
+  public create(document: IUser): IUser | undefined {
+    // const user = new User(document);
 
-  // technique.createdBy = getUsername(req);
-  // technique.created = Date.now();
+    new User(document).save((err, user) => {
+      if (err) {
+        this.log.error('Failed to save this user: ', user);
+        return undefined;
+      } else {
+        return user.toJSON();
+      }
+    });
 
-  // if (!technique._id) {
-  //   technique._id = `B${_.padStart(newId, 4, '0')}`;
-  // }
-
-  // technique.save((err, technique) => {
-  //   if (err) {
-  //     res
-  //       .status(400)
-  //       .json(handleError(err, 'technique'))
-  //       .send();
-  //   } else {
-  //     res.location(`/technique/${technique._id}`);
-  //     res.status(201).json(technique);
-  //   }
-  // });
     return undefined;
   }
 }
