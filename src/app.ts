@@ -16,7 +16,7 @@ bootstrapMicroframework({
    * Loader is a place where you can configure all your modules during microframework
    * bootstrap process. All loaders are executed one by one in a sequential order.
    */
-  loaders: [winstonLoader, iocLoader, expressLoader, dbLoader, staticPageLoader, monitorLoader],
+  loaders: [winstonLoader, /* */iocLoader, expressLoader, /* */dbLoader, staticPageLoader, monitorLoader],
 })
   // .then(() => banner(log))
   .catch(error => log.error('Application is crashed: ' + error));

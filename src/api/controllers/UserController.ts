@@ -18,7 +18,7 @@ export class UserController {
   }
 
   @Post()
-  public create(@Body() user: IUser): IUser {
+  public async create(@Body() user: IUser): Promise<IUser> {
     console.log('#####', user);
     return this.userRepository.create(user);
   }

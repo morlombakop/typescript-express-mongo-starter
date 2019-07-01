@@ -4,7 +4,7 @@ import mongoose, { HookNextFunction, Schema, model } from 'mongoose';
 import { IUser } from '../types/User';
 
 export interface IUserModel extends IUser, mongoose.Document {
-  comparePassword(password: string, cb: any): string;
+  comparePassword(password: string): Promise<boolean>;
   // Need to implement the method below
   validPassword(password: string, cb: any): string;
 }
@@ -23,8 +23,8 @@ const userSchema = new Schema(
   {
     username: { type: String, unique: true, minlength: 4, trim: true },
     password: { type: String },
-    passwordResetToken: { type: String },
-    passwordResetExpires: { type: Date },
+    // passwordResetToken: { type: String },
+    passwordResetExpires: { type: Date, default: new Date() },
 
     tokens: [Token],
 
@@ -77,12 +77,9 @@ userSchema.pre<IUserModel>('save', function save(next: HookNextFunction): void {
  * Helper method for validating user's password.
  */
 userSchema.methods.comparePassword = function comparePassword(
-  candidatePassword: string,
-  callBack: (err: Error, isMatch: boolean) => void
-): void {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    callBack(err, isMatch);
-  });
+  candidatePassword: string
+): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
 export const User = model<IUserModel>('User', userSchema);

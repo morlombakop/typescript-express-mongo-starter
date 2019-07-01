@@ -13,6 +13,7 @@ export const dbLoader: MicroframeworkLoader = (settings: MicroframeworkSettings 
     const attemptMongoConnect = () =>
       mongoose.connect(`mongodb://${env.db.url}/${env.db.name}`, {
         useNewUrlParser: true,
+        useCreateIndex: true,
       });
     const db = mongoose.connection;
 

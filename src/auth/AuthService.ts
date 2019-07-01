@@ -24,7 +24,7 @@ export class AuthService {
         return undefined;
     }
 
-    public validateUser(username: string, password: string): IUser {
+    public validateUser(username: string, password: string): Promise<IUser> {
         return this.userRepository.findByUsernameAndPassword(username, password);
     }
 }

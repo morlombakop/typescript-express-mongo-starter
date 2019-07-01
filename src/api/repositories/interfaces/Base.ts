@@ -1,19 +1,19 @@
 export interface ICreate<T> {
-  create: (document: T) => T | undefined;
+  create: (document: T) => Promise<T>;
 }
 
 export interface IUpdate<T> {
-  update: (document: T) => T | undefined;
+  update: (document: T) => Promise<T>;
 }
 
 export interface IRemove {
-  remove: (id: string) => boolean;
+  remove: (id: string) => Promise<boolean>;
 }
 
 export interface IFindById<T> {
-  findById: (id: string) => T | undefined;
+  findById: (id: string) => Promise<T>;
 }
 
 export interface IFindAll<T> {
-  findById: () => T[] | undefined;
+  findById: () => Promise<T[]>;
 }
