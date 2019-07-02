@@ -8,6 +8,7 @@ export interface IUserModel extends IUser, mongoose.Document {
   // Need to implement the method below
   validPassword(password: string, cb: any): string;
 }
+
 const Token = new Schema(
   {
     kind: { type: String },
@@ -19,21 +20,28 @@ const Token = new Schema(
   }
 );
 
+const Profile = new Schema(
+  {
+    name: { type: String },
+    gender: { type: String },
+    location: { type: String },
+    website: { type: String },
+    picture: { type: String },
+  },
+  {
+    _id: false,
+  }
+);
+
 const userSchema = new Schema(
   {
     username: { type: String, unique: true, minlength: 4, trim: true },
     password: { type: String },
-    // passwordResetToken: { type: String },
+    passwordResetToken: { type: String },
     passwordResetExpires: { type: Date, default: new Date() },
-
     tokens: [Token],
-
     profile: {
-      name: { type: String },
-      gender: { type: String },
-      location: { type: String },
-      website: { type: String },
-      picture: { type: String },
+      type: Profile,
     },
   },
   {
@@ -44,8 +52,10 @@ const userSchema = new Schema(
       transform: (doc, obj) => {
         delete obj.__v;
         delete obj._id;
+        delete obj.password;
         return obj;
       },
+
     },
     versionKey: false,
   }

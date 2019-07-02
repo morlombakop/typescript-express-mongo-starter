@@ -54,6 +54,8 @@ export class Logger {
         if (winston) {
             winston[level](`${this.formatScope()} ${message}`, args);
         }
+
+        console.log(message, args); // should be done for dev only.
     }
 
     private formatScope(): string {

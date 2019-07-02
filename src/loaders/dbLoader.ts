@@ -11,10 +11,15 @@ export const dbLoader: MicroframeworkLoader = (settings: MicroframeworkSettings 
     let connectionAttempts = 4;
 
     const attemptMongoConnect = () =>
-      mongoose.connect(`mongodb://${env.db.url}/${env.db.name}`, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-      });
+      mongoose
+        .connect(`mongodb://${env.db.url}/${env.db.name}`, {
+          useNewUrlParser: true,
+          useCreateIndex: true,
+        });
+        // .then(con => {
+        //   con.connection.db.dropDatabase();
+        //   console.log('DataBase dropped');
+        // });
     const db = mongoose.connection;
 
     db.on('error', () => {

@@ -15,5 +15,5 @@ export interface IFindById<T> {
 }
 
 export interface IFindAll<T> {
-  findById: () => Promise<T[]>;
+  findAll: () => Promise<T[]>;
 }
