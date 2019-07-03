@@ -13,7 +13,6 @@ import * as winston from 'winston';
  */
 
 export class Logger {
-
     public static DEFAULT_SCOPE = 'app';
 
     private static parsePathToScope(filepath: string): string {
@@ -54,12 +53,9 @@ export class Logger {
         if (winston) {
             winston[level](`${this.formatScope()} ${message}`, args);
         }
-
-        console.log(message, args); // should be done for dev only.
     }
 
     private formatScope(): string {
         return `[${this.scope}]`;
     }
-
 }

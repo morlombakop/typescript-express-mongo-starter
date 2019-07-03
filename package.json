@@ -9,7 +9,7 @@
   "author": "Morlo Mbakop <morlombakop@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "develop": "npm run build && npm run start",
+    "develop": "cross-env NODE_ENV=dev npm run build && npm run start",
     "test": "jest --no-cache",
     "start": "node dist/src/app.js",
     "copy:static-assets": "ts-node copyStaticAssets.ts",
@@ -48,12 +48,14 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
+    "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.7.7",
     "ts-node": "^8.3.0",
     "tslint": "^5.17.0",
     "typedi": "^0.8.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.9.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -67,7 +69,9 @@
     "@types/mongodb": "^3.1.28",
     "@types/mongoose": "^5.5.6",
     "@types/morgan": "^1.7.35",
+    "@types/ramda": "^0.26.15",
     "@types/shelljs": "^0.8.5",
+    "cross-env": "^5.2.0",
     "jest": "^24.8.0",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",

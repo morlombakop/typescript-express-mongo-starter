@@ -1,35 +1,36 @@
 import { Service } from 'typedi';
+import { omit } from 'ramda';
 
-import { User } from '../models/UserModel';
-import { IUser } from '../types/User';
+import { User } from '../schemas/UserSchema';
+import { IUserModel } from '../models/UserModel';
 import { IUserRepository } from './interfaces/IUserRepository';
 import { Logger, LoggerInterface } from '../../decorators/Logger';
-import { HttpError } from 'routing-controllers';
+import { NotFoundError } from 'routing-controllers';
 
 @Service()
 export class UserRepository implements IUserRepository {
   constructor(@Logger(__filename) private log: LoggerInterface) {}
 
-  public async findById(id: string): Promise<IUser> {
+  public async findById(id: string): Promise<IUserModel> {
     return User.findById(id)
-      .then(result => result.toJSON())
+      .then(result => omit(['password'], result.toJSON()) as IUserModel)
       .catch(err => {
         this.log.error(
           `Unable to find user with id: ${id}, operation failed with this error: ${err}`
         );
-        throw new HttpError(400, `Unable to find user with id: ${id}`);
+        throw new NotFoundError(`Unable to find user with id: ${id}`);
       });
   }
 
-  public async findByUsernameAndPassword(username: string, password: string): Promise<IUser> {
+  public async findByUsernameAndPassword(username: string, password: string): Promise<IUserModel> {
     return User.findOne({ username })
       .then(user =>
         user.comparePassword(password).then(isMatch => {
           if (isMatch) {
-            return user.toJSON();
+            return omit(['password'], user.toJSON()) as IUserModel;
           } else {
             this.log.error(`Invalid password: ${password} provided for username: ${username}`);
-            throw new HttpError(400, 'Invalid username or password');
+            throw new NotFoundError('Invalid username or password');
           }
         })
       )
@@ -37,14 +38,14 @@ export class UserRepository implements IUserRepository {
         this.log.error(
           `Unable to find user with username: ${username}, operation failed with this error: ${err}`
         );
-        throw new HttpError(400, 'Invalid username or password');
+        throw new NotFoundError('Invalid username or password');
       });
   }
 
-  public async create(user: IUser): Promise<IUser> {
+  public async create(user: IUserModel): Promise<IUserModel> {
     return new User(user)
       .save()
-      .then(result => result.toJSON())
+      .then(result => omit(['password'], result.toJSON()) as IUserModel)
       .catch(err => {
         this.log.error(
           `Failed to save this user: ${user}, operation failed with this error: ${err}`
@@ -53,7 +54,7 @@ export class UserRepository implements IUserRepository {
       });
   }
 
-  public async findAll(): Promise<IUser[]> {
+  public async findAll(): Promise<IUserModel[]> {
     return User.find({}, '-password')
       .lean()
       .then(result => {
@@ -61,7 +62,7 @@ export class UserRepository implements IUserRepository {
           _id: string
         };
 
-        const users = JSON.parse(JSON.stringify(result)) as Array<Foo<IUser>>;
+        const users = JSON.parse(JSON.stringify(result)) as Array<Foo<IUserModel>>;
 
         return users.map(user => {
           const { _id, ...rest } = user;

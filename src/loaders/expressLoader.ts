@@ -2,14 +2,12 @@ import { Application } from 'express';
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
 import { createExpressServer } from 'routing-controllers';
 
-// import { authorizationChecker } from '../auth/authorizationChecker';
-// import { currentUserChecker } from '../auth/currentUserChecker';
+import { authorizationChecker } from '../auth/authorizationChecker';
+import { currentUserChecker } from '../auth/currentUserChecker';
 import { env } from '../env';
 
 export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     if (settings) {
-        // const connection = settings.getData('connection');
-
         /**
          * We create a new express server instance.
          * We could have also use useExpressServer here to attach controllers to an existing express instance.
@@ -30,8 +28,8 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
             /**
              * Authorization features
              */
-            // authorizationChecker: authorizationChecker(connection),
-            // currentUserChecker: currentUserChecker(connection),
+            authorizationChecker: authorizationChecker(),
+            currentUserChecker: currentUserChecker(),
         });
 
         // Run application to listen on given port

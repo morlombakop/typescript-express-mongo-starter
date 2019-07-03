@@ -3,28 +3,35 @@ import { Service } from 'typedi';
 
 import { Logger, LoggerInterface } from '../decorators/Logger';
 import { decryptJwt, IJwtData } from '../lib/jwt';
-import { IUser } from '../api/types/User';
+import { IUserModel } from '../api/models/UserModel';
 import { UserRepository } from '../api/repositories/UserRepository';
+import { env } from '../env';
 
 @Service()
 export class AuthService {
-    constructor(
-        @Logger(__filename) private log: LoggerInterface,
-        private userRepository: UserRepository
-    ) { }
+  constructor(
+    @Logger(__filename) private log: LoggerInterface,
+    private userRepository: UserRepository
+  ) {}
 
-    public parseBasicAuthFromRequest(req: express.Request): IJwtData {
-        const authorization = req.header('authorization');
+  public getUserClaimFromRequest(req: express.Request): IJwtData {
+    const authorization = req.header('Authorization');
 
-        if (authorization && authorization.split(' ')[0] === 'Bearer ') {
-            return decryptJwt(authorization.split(' ')[1]);
-        }
-
-        this.log.info('No credentials provided by the client');
-        return undefined;
+    if (authorization && authorization.split(' ')[0] === 'Bearer') {
+      return decryptJwt(authorization.split(' ')[1]);
     }
 
-    public validateUser(username: string, password: string): Promise<IUser> {
-        return this.userRepository.findByUsernameAndPassword(username, password);
-    }
+    this.log.info('No JWT provided by the client');
+    return undefined;
+  }
+
+  public validateUser(claim: IJwtData, roles: string[]): Promise<IUserModel | undefined> {
+    return this.userRepository
+      .findById(claim.userId)
+      .then(user =>
+        roles.length === 0 || roles.some(role => env.app.user.roles.includes(role))
+          ? user
+          : undefined
+      );
+  }
 }
