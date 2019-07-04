@@ -1,61 +1,76 @@
 import * as path from 'path';
-import * as winston from 'winston';
+import { createLogger, format, Logger as WinstonLogger, transports } from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import { env } from '../../env';
 
 /**
- * core.Log
- * ------------------------------------------------
- *
- * This is the main Logger Object. You can create a scope logger
- * or directly use the static log methods.
- *
- * By Default it uses the debug-adapter, but you are able to change
- * this in the start up process in the core/index.ts file.
+ * Application logger
  */
-
 export class Logger {
-    public static DEFAULT_SCOPE = 'app';
+  private static DEFAULT_SCOPE = 'app';
 
-    private static parsePathToScope(filepath: string): string {
-        if (filepath.indexOf(path.sep) >= 0) {
-            filepath = filepath.replace(process.cwd(), '');
-            filepath = filepath.replace(`${path.sep}src${path.sep}`, '');
-            filepath = filepath.replace(`${path.sep}dist${path.sep}`, '');
-            filepath = filepath.replace('.ts', '');
-            filepath = filepath.replace('.js', '');
-            filepath = filepath.replace(path.sep, ':');
-        }
-        return filepath;
+  private static parsePathToScope(filePath: string = Logger.DEFAULT_SCOPE): string {
+    if (filePath.indexOf(path.sep) >= 0) {
+      filePath = filePath.replace(process.cwd(), '~');
+      filePath = filePath.replace('.ts', '');
+      filePath = filePath.replace('.js', '');
     }
 
-    private scope: string;
+    return filePath;
+  }
 
-    constructor(scope?: string) {
-        this.scope = Logger.parsePathToScope((scope) ? scope : Logger.DEFAULT_SCOPE);
+  private scope: string;
+  private logger: WinstonLogger;
+
+  constructor(scope?: string) {
+    const { combine, timestamp, label, json } = format;
+    this.scope = Logger.parsePathToScope(scope);
+    this.logger = createLogger({
+      format: combine(label({ label: this.scope }), timestamp(), json()),
+      level: env.log.level,
+      transports: this.getTransports(),
+    });
+  }
+
+  public debug(message: string, ...args: any[]): void {
+    this.log('debug', message, args);
+  }
+
+  public info(message: string, ...args: any[]): void {
+    this.log('info', message, args);
+  }
+
+  public warn(message: string, ...args: any[]): void {
+    this.log('warn', message, args);
+  }
+
+  public error(message: string, ...args: any[]): void {
+    this.log('error', message, args);
+  }
+
+  private log(level: string, message: string, args: any[]): void {
+    if (this.scope === Logger.DEFAULT_SCOPE) {
+      console.warn('Please set a logger scope !!!!');
     }
 
-    public debug(message: string, ...args: any[]): void {
-        this.log('debug', message, args);
+    this.logger.log(level, message, args);
+  }
+
+  private getTransports(): any[] {
+    const { simple, combine, colorize } = format;
+    if (env.node === 'development') {
+      return [new transports.Console({ format: combine(simple(), colorize()) })];
     }
 
-    public info(message: string, ...args: any[]): void {
-        this.log('info', message, args);
-    }
-
-    public warn(message: string, ...args: any[]): void {
-        this.log('warn', message, args);
-    }
-
-    public error(message: string, ...args: any[]): void {
-        this.log('error', message, args);
-    }
-
-    private log(level: string, message: string, args: any[]): void {
-        if (winston) {
-            winston[level](`${this.formatScope()} ${message}`, args);
-        }
-    }
-
-    private formatScope(): string {
-        return `[${this.scope}]`;
-    }
+    return [
+      new DailyRotateFile({
+        filename: 'app-%DATE%.log',
+        datePattern: 'YYYY-MM-DD-HH',
+        zippedArchive: true,
+        maxSize: '20m',
+        maxFiles: '14d',
+        dirname: env.log.output,
+      }),
+    ];
+  }
 }

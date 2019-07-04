@@ -35,10 +35,6 @@ export const env = {
     port: normalizePort(process.env.PORT || getOsEnv('APP_PORT')),
     banner: toBool(getOsEnv('APP_BANNER')),
     dirs: {
-      // migrations: getOsPaths('TYPEORM_MIGRATIONS'),
-      // migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),
-      // entities: getOsPaths('TYPEORM_ENTITIES'),
-      // entitiesDir: getOsPath('TYPEORM_ENTITIES_DIR'),
       controllers: getOsPaths('CONTROLLERS'),
       middlewares: getOsPaths('MIDDLEWARES'),
       interceptors: getOsPaths('INTERCEPTORS'),

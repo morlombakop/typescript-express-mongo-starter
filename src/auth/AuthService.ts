@@ -10,7 +10,7 @@ import { env } from '../env';
 @Service()
 export class AuthService {
   constructor(
-    @Logger(__filename) private log: LoggerInterface,
+    @Logger(__dirname) private log: LoggerInterface,
     private userRepository: UserRepository
   ) {}
 

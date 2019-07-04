@@ -26,7 +26,5 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
         } else {
             this.log.error(error.name, error.stack);
         }
-
     }
-
 }
