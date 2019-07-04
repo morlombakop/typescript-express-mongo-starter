@@ -7,9 +7,7 @@ import { env } from '../../env';
  * Application logger
  */
 export class Logger {
-  private static DEFAULT_SCOPE = 'app';
-
-  private static parsePathToScope(filePath: string = Logger.DEFAULT_SCOPE): string {
+  private static parsePathToScope(filePath: string): string {
     if (filePath.indexOf(path.sep) >= 0) {
       filePath = filePath.replace(process.cwd(), '~');
       filePath = filePath.replace('.ts', '');
@@ -22,11 +20,9 @@ export class Logger {
   private scope: string;
   private logger: WinstonLogger;
 
-  constructor(scope?: string) {
-    const { combine, timestamp, label, json } = format;
+  constructor(scope: string) {
     this.scope = Logger.parsePathToScope(scope);
     this.logger = createLogger({
-      format: combine(label({ label: this.scope }), timestamp(), json()),
       level: env.log.level,
       transports: this.getTransports(),
     });
@@ -49,21 +45,19 @@ export class Logger {
   }
 
   private log(level: string, message: string, args: any[]): void {
-    if (this.scope === Logger.DEFAULT_SCOPE) {
-      console.warn('Please set a logger scope !!!!');
-    }
-
-    this.logger.log(level, message, args);
+    const msg = env.node === 'development' ? `[${this.scope}] ${message}` : message;
+    this.logger.log(level, msg, args);
   }
 
   private getTransports(): any[] {
-    const { simple, combine, colorize } = format;
+    const { label, timestamp, json, simple, combine, colorize } = format;
     if (env.node === 'development') {
       return [new transports.Console({ format: combine(simple(), colorize()) })];
     }
 
     return [
       new DailyRotateFile({
+        format: combine(label({ label: this.scope }), timestamp(), json()),
         filename: 'app-%DATE%.log',
         datePattern: 'YYYY-MM-DD-HH',
         zippedArchive: true,
