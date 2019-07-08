@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import mongoose, { HookNextFunction, Schema, model } from 'mongoose';
 
-import { IUserModel } from '../models/UserModel';
+import { IUser } from '../types/UserType';
 import { env } from '../../env';
 
-export interface IUserSchema extends IUserModel, mongoose.Document {
+export interface IUserSchema extends IUser, mongoose.Document {
   comparePassword(password: string): Promise<boolean>;
   // Need to implement the method below
   validPassword(password: string, cb: any): string;

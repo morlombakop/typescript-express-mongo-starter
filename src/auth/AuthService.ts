@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 
 import { Logger, LoggerInterface } from '../decorators/Logger';
 import { decryptJwt, IJwtData } from '../lib/jwt';
-import { IUserModel } from '../api/models/UserModel';
+import { IUser } from '../api/types/UserType';
 import { UserRepository } from '../api/repositories/UserRepository';
 import { env } from '../env';
 
@@ -25,7 +25,7 @@ export class AuthService {
     return undefined;
   }
 
-  public validateUser(claim: IJwtData, roles: string[]): Promise<IUserModel | undefined> {
+  public validateUser(claim: IJwtData, roles: string[]): Promise<IUser | undefined> {
     return this.userRepository
       .findById(claim.userId)
       .then(user =>

@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { JsonController, Get, Post, Body, Param, Res, Authorized } from 'routing-controllers';
 import { UserRepository } from '../repositories/UserRepository';
-import { IUserModel } from '../models/UserModel';
+import { IUser } from '../types/UserType';
 import { generateJwt } from '../../lib/jwt';
 import { env } from '../../env';
 
@@ -20,25 +20,25 @@ export class UserController {
   }
 
   @Post()
-  public create(@Body() user: IUserModel): Promise<IUserModel> {
+  public create(@Body() user: IUser): Promise<IUser> {
     return this.userRepository.create(user);
   }
 
   @Get()
-  public getAll(): Promise<IUserModel[]> {
+  public getAll(): Promise<IUser[]> {
     return this.userRepository.findAll();
   }
 
   @Get('/one/:id')
-  public getOne(@Param('id') id: string): Promise<IUserModel | undefined> {
+  public getOne(@Param('id') id: string): Promise<IUser | undefined> {
     return this.userRepository.findById(id);
   }
 
   @Post('/login')
   public login(
     @Res() res: Response,
-    @Body() { username, password }: Partial<IUserModel>
-  ): Promise<IUserModel> {
+    @Body() { username, password }: Partial<IUser>
+  ): Promise<IUser> {
     return this.userRepository.findByUsernameAndPassword(username, password).then(user => {
       // @ts-ignore
       const jwt = generateJwt({ userId: user.id, roles: user.roles });
