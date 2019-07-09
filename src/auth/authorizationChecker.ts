@@ -1,7 +1,7 @@
 import { Action } from 'routing-controllers';
 import { Container } from 'typedi';
 
-import { Logger } from '../lib/logger';
+import { Logger } from '../util/logger';
 import { AuthService } from './AuthService';
 
 export function authorizationChecker(): (action: Action, roles: any[]) => Promise<boolean> | boolean {

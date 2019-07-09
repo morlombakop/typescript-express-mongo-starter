@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Service } from 'typedi';
 
 import { Logger, LoggerInterface } from '../decorators/Logger';
-import { decryptJwt, IJwtData } from '../lib/jwt';
+import { decryptJwt, IJwtData } from '../util/jwt';
 import { IUser } from '../api/types/UserType';
 import { UserRepository } from '../api/repositories/UserRepository';
 import { env } from '../env';

@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 
-import { Logger as WinstonLogger } from '../lib/logger';
+import { Logger as WinstonLogger } from '../util/logger';
 
 export function Logger(scope: string): ParameterDecorator {
     return (object, propertyKey, index): any => {
@@ -10,4 +10,4 @@ export function Logger(scope: string): ParameterDecorator {
     };
 }
 
-export { LoggerInterface } from '../lib/logger';
+export { LoggerInterface } from '../util/logger';

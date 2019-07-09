@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { Logger } from '../../lib/logger';
+import { Logger } from '../logger';
 import { env } from '../../env';
 
 const log = new Logger(__filename);

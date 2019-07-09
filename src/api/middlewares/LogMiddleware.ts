@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import { ExpressMiddlewareInterface, Middleware } from 'routing-controllers';
 
 import { env } from '../../env';
-import { Logger } from '../../lib/logger';
+import { Logger } from '../../util/logger';
 
 @Middleware({ type: 'before' })
 export class LogMiddleware implements ExpressMiddlewareInterface {

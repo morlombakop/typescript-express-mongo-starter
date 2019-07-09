@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { JsonController, Get, Post, Body, Param, Res, Authorized } from 'routing-controllers';
 import { UserRepository } from '../repositories/UserRepository';
 import { IUser } from '../types/UserType';
-import { generateJwt } from '../../lib/jwt';
+import { generateJwt } from '../../util/jwt';
 import { env } from '../../env';
 
 @JsonController('/users')

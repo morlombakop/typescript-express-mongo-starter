@@ -2,7 +2,7 @@ import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3t
 import mongoose from 'mongoose';
 
 import { env } from '../env';
-import { Logger } from '../lib/logger';
+import { Logger } from '../util/logger';
 
 export const dbLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
   if (settings) {

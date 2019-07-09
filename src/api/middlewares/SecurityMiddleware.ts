@@ -8,5 +8,4 @@ export class SecurityMiddleware implements ExpressMiddlewareInterface {
     public use(req: express.Request, res: express.Response, next: express.NextFunction): any {
         return helmet()(req, res, next);
     }
-
 }
