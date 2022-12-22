@@ -43,7 +43,7 @@
     "express-status-monitor": "^1.2.6",
     "graphql": "^14.4.2",
     "helmet": "^3.18.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "microframework-w3tec": "^0.6.3",
     "mongodb": "^3.2.7",
     "mongoose": "^5.6.1",
